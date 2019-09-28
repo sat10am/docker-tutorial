@@ -1,0 +1,29 @@
+service:
+  web:
+    build: .
+    container_name: todo_webserver
+    ports:
+      - "8000:8000"
+    volumes:
+      - .:/app
+    links:
+      - mysql
+  databse:
+    image: postgres:12-alpine
+    container_name: todo_database
+    restart: always
+    environment:
+      POSTGRES_PASSWORD: password
+      POSTGRES_DB: todo
+      POSTGRES_USER: todo_admin
+    volumes:
+      - ./data:/var/lib/postgresql
+    ports:
+      - "5432:5432"
+  frontend:
+    container_name: frontend
+    build:
+      context: .
+      dockerfile: Dockerfile.nginx
+    ports:
+      - "80:80"
