@@ -1,0 +1,6 @@
+apps:
+  - script: index.js
+    error_file: error.log
+    out_file: out.log
+    instances: 1
+    exec_mode: cluster

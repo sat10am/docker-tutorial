@@ -1,0 +1,21 @@
+# build packages
+FROM node:10.16-alpine AS node_modules
+
+WORKDIR /tmp
+RUN apk add --no-cache --update krb5-dev alpine-sdk python
+ADD package-lock.json .
+ADD package.json .
+RUN npm install
+
+# build python
+FROM node:10.16-alpine AS service
+
+RUN apk add --no-cache tini
+ENTRYPOINT ["/sbin/tini", "--"]
+
+WORKDIR /app
+COPY . /app
+EXPOSE 3000
+
+COPY --from=node_modules /tmp/node_modules ./node_modules/
+CMD ["npm", "start"]
