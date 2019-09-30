@@ -1,0 +1,6 @@
+FROM openjdk:8-jdk
+
+COPY ./ /app
+WORKDIR /app
+
+CMD ["./gradlew", "bootRun"]
