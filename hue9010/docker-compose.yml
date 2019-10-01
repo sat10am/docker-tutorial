@@ -1,0 +1,33 @@
+version: "3"
+services:
+  docker_db:
+    image: mysql:5.7
+    environment:
+      MYSQL_DATABASE: todo
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_ROOT_HOST: '%'
+    networks:
+      - todo_net
+
+  todo:
+    build: .
+    depends_on:
+      - docker_db
+    networks:
+      - todo_net
+
+  nginx:
+    container_name: nginx
+    build:
+      context: .
+      dockerfile: Dockerfile.nginx
+    ports:
+      - 8000:80
+    depends_on:
+      - todo
+    networks:
+      - todo_net
+
+networks:
+  todo_net:
+    driver: bridge
