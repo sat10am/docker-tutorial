@@ -1,0 +1,28 @@
+version: '3.7'
+services:
+  app:
+    command: sh -c 'wait-for mariadb:3306 -- yarn start'
+    build:
+      context: .
+      dockerfile: Dockerfile
+    depends_on:  
+     - mariadb
+  nginx:
+    image: nginx
+    ports:
+      - "180:80"
+    volumes:
+      - ./conf/nginx:/etc/nginx/conf.d
+    depends_on:
+      - app
+  mariadb:
+    image: mariadb:10.2
+    ports:
+      - "3309:3306"
+    environment:
+      MYSQL_ROOT_PASSWORD: admin
+      MYSQL_DATABASE: todo
+      MYSQL_USER: todo
+      MYSQL_PASSWORD: admin
+    volumes:
+      - ./data/mysql/var/lib/mysql
