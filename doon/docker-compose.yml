@@ -1,14 +1,17 @@
-service:
-  web:
+version: '3'
+services:
+  todo_web:
     build: .
+    restart: always
     container_name: todo_webserver
-    ports:
-      - "8000:8000"
     volumes:
       - .:/app
-    links:
-      - mysql
-  databse:
+    depends_on:
+      - todo_database
+    environment:
+      DJANGO_SETTINGS_MODULE: todo.settings
+      PYTHONPATH: /app
+  todo_database:
     image: postgres:12-alpine
     container_name: todo_database
     restart: always
@@ -19,11 +22,14 @@ service:
     volumes:
       - ./data:/var/lib/postgresql
     ports:
-      - "5432:5432"
+      - "15432:5432"
   frontend:
     container_name: frontend
-    build:
-      context: .
-      dockerfile: Dockerfile.nginx
+    image: nginx:latest
     ports:
-      - "80:80"
+      - "28000:80"
+    volumes:
+      - .:/app
+      - ./config/nginx:/etc/nginx/conf.d
+    depends_on:
+      - todo_web

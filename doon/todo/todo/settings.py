@@ -25,7 +25,7 @@ SECRET_KEY = "m!^t5fa%+t6+yrc-c82l+$wj2#rb!7(vp46$i-yimc^ssdv_1a"
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ["*"]
 
 
 # Application definition
@@ -81,7 +81,7 @@ DATABASES = {
         "NAME": "todo",
         "USER": "todo_admin",
         "PASSWORD": "password",
-        "HOST": "localhost",
+        "HOST": "todo_database",
     }
 }
 
@@ -117,4 +117,4 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/2.2/howto/static-files/
 
 STATIC_URL = "/static/"
-STATIC_ROOT = "static"
+STATIC_ROOT = os.path.join(BASE_DIR, "static/")
