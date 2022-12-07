@@ -12,7 +12,7 @@
   "license": "ISC",
   "dependencies": {
     "bcrypt": "^3.0.6",
-    "body-parser": "^1.19.0",
+    "body-parser": "^1.20.1",
     "koa": "^2.8.1",
     "nodemon": "^1.19.2",
     "pm2": "^3.5.1"
